@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌊 我的小小世界 · 人生相册</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS Variables ===== */
+:root {
+  --lavender: #c9b8e4;
+  --lavender-light: #e8dff5;
+  --lavender-dark: #8b7aaf;
+  --rose: #d4a5a5;
+  --rose-light: #f0d5d5;
+  --rose-dark: #b88080;
+  --cream: #fdf9f3;
+  --cream-dark: #f5ede0;
+  --gold: #c9b99a;
+  --gold-light: #e8dcc8;
+  --text: #4a3f5c;
+  --text-light: #7a6f8c;
+  --text-lighter: #a094b0;
+  --white: #fffefb;
+  --ocean-1: #b8d4e3;
+  --ocean-2: #a8c8d8;
+  --mint: #b8d4c8;
+  --card-shadow: 0 4px 20px rgba(74,63,92,0.08);
+  --card-shadow-hover: 0 8px 40px rgba(74,63,92,0.14);
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Stars Background ===== */
+#stars-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.star {
+  position: absolute;
+  background: var(--lavender);
+  border-radius: 50%;
+  animation: twinkle var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.8); }
+}
+
+/* ===== Floating Fish ===== */
+.fish {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 28px;
+  opacity: 0.12;
+  animation: swim var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes swim {
+  0% { transform: translateX(-100px) translateY(0) rotate(0deg); }
+  25% { transform: translateX(25vw) translateY(-40px) rotate(3deg); }
+  50% { transform: translateX(50vw) translateY(20px) rotate(-2deg); }
+  75% { transform: translateX(75vw) translateY(-30px) rotate(2deg); }
+  100% { transform: translateX(110vw) translateY(0) rotate(0deg); }
+}
+
+/* ===== Navigation ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(253,249,243,0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,184,228,0.25);
+  padding: 0 2rem;
+  transition: all 0.3s ease;
+}
+nav.scrolled { background: rgba(253,249,243,0.92); box-shadow: 0 2px 20px rgba(74,63,92,0.06); }
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.nav-logo {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  color: var(--lavender-dark);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.88rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--lavender-dark);
+  background: var(--lavender-light);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text);
+  padding: 0.5rem;
+}
+
+/* ===== Sections Common ===== */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem;
+}
+
+.section-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title .en {
+  font-family: 'Caveat', cursive;
+  font-size: 2.2rem;
+  color: var(--lavender);
+  display: block;
+  line-height: 1;
+}
+
+.section-title .cn {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text);
+  font-family: 'Noto Serif SC', serif;
+  letter-spacing: 4px;
+}
+
+.section-title .line {
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--lavender), var(--rose-light));
+  margin: 0.8rem auto 0;
+  border-radius: 1px;
+}
+
+/* ===== Hero Section ===== */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 64px;
+  position: relative;
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lavender-light), var(--rose-light), var(--ocean-1));
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  box-shadow: 0 0 0 6px rgba(201,184,228,0.2), 0 0 0 14px rgba(201,184,228,0.08);
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.hero-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  color: var(--text-lighter);
+  margin-bottom: 1.5rem;
+}
+
+.hero-birth {
+  display: inline-block;
+  background: var(--white);
+  border: 1px solid var(--lavender-light);
+  border-radius: 30px;
+  padding: 0.5rem 1.8rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  letter-spacing: 1px;
+  box-shadow: var(--card-shadow);
+}
+
+.hero-tags {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.8rem;
+}
+
+.hero-tag {
+  background: linear-gradient(135deg, var(--lavender-light), var(--rose-light));
+  color: var(--text);
+  padding: 0.3rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.hero-quote {
+  margin-top: 2.5rem;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.05rem;
+  color: var(--text-lighter);
+  font-style: italic;
+  letter-spacing: 0.5px;
+  line-height: 2;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-lighter);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+.scroll-indicator .arrow {
+  width: 24px;
+  height: 24px;
+  border-right: 2px solid var(--lavender);
+  border-bottom: 2px solid var(--lavender);
+  transform: rotate(45deg);
+  opacity: 0.6;
+}
+
+/* ===== About Section ===== */
+#about {
+  background: linear-gradient(180deg, var(--cream) 0%, var(--white) 50%, var(--cream) 100%);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.about-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(201,184,228,0.15);
+  transition: all 0.4s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.about-card.full { grid-column: 1 / -1; }
+
+.about-card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-card h3 .icon { font-size: 1.5rem; }
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.info-item { display: flex; flex-direction: column; }
+
+.info-item .label {
+  font-size: 0.75rem;
+  color: var(--text-lighter);
+  letter-spacing: 1px;
+}
+
+.info-item .value {
+  font-size: 0.95rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.personality-bars { display: flex; flex-direction: column; gap: 1rem; }
+
+.bar-item { display: flex; align-items: center; gap: 0.8rem; }
+
+.bar-label {
+  width: 70px;
+  font-size: 0.82rem;
+  color: var(--text-light);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--cream-dark);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--lavender), var(--rose));
+  animation: fillBar 1.5s ease-out forwards;
+  transform-origin: left;
+}
+
+@keyframes fillBar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.about-text {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  line-height: 2;
+  text-indent: 2em;
+}
+
+/* ===== Timeline Section ===== */
+#timeline { background: var(--cream); }
+
+.timeline { position: relative; padding: 1rem 0; }
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--lavender), var(--rose-light), var(--ocean-1));
+  border-radius: 1px;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s ease;
+}
+
+.timeline-item.visible { opacity: 1; transform: translateY(0); }
+
+.timeline-item:nth-child(odd) { flex-direction: row; }
+.timeline-item:nth-child(even) { flex-direction: row-reverse; }
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: var(--white);
+  border: 3px solid var(--lavender);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 0 6px rgba(201,184,228,0.12);
+}
+
+.timeline-card {
+  width: calc(50% - 3rem);
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(201,184,228,0.12);
+  transition: all 0.3s ease;
+}
+
+.timeline-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+
+.timeline-date {
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  color: var(--lavender-dark);
+  margin-bottom: 0.3rem;
+}
+
+.timeline-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.timeline-desc {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.timeline-emoji {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.5;
+  top: -15px;
+}
+
+.timeline-item:nth-child(odd) .timeline-emoji { right: -50px; }
+.timeline-item:nth-child(even) .timeline-emoji { left: -50px; }
+
+/* ===== Gallery Section ===== */
+#gallery {
+  background: linear-gradient(180deg, var(--cream) 0%, var(--white) 50%, var(--cream) 100%);
+}
+
+.gallery-filter {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--white);
+  border: 1px solid var(--lavender-light);
+  color: var(--text-light);
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--lavender-light);
+  color: var(--lavender-dark);
+  border-color: var(--lavender);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.gallery-item {
+  background: var(--white);
+  border-radius: 6px;
+  padding: 0.8rem 0.8rem 2.5rem 0.8rem;
+  box-shadow: 3px 6px 20px rgba(74,63,92,0.1);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  position: relative;
+  transform: rotate(var(--rot, 0deg));
+}
+
+.gallery-item:nth-child(odd) { --rot: -1.5deg; }
+.gallery-item:nth-child(even) { --rot: 1.5deg; }
+.gallery-item:nth-child(3n) { --rot: 2deg; }
+.gallery-item:nth-child(5n+1) { --rot: -2deg; }
+
+.gallery-item:hover {
+  transform: rotate(0deg) scale(1.04);
+  box-shadow: 5px 10px 30px rgba(74,63,92,0.16);
+  z-index: 10;
+}
+
+.gallery-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, var(--lavender-light), var(--rose-light), var(--cream-dark));
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-img.placeholder-1 { background: linear-gradient(135deg, #e8dff5, #d4c5e8); }
+.gallery-img.placeholder-2 { background: linear-gradient(135deg, #f0d5d5, #e8c4c4); }
+.gallery-img.placeholder-3 { background: linear-gradient(135deg, #b8d4e3, #c8dde8); }
+.gallery-img.placeholder-4 { background: linear-gradient(135deg, #e8dcc8, #d4c9b0); }
+.gallery-img.placeholder-5 { background: linear-gradient(135deg, #d5e8d5, #c0d8c0); }
+.gallery-img.placeholder-6 { background: linear-gradient(135deg, #e0d5f0, #c8b8e0); }
+
+.gallery-caption {
+  text-align: center;
+  margin-top: 0.8rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+/* ===== Lightbox ===== */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(74,63,92,0.9);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox.active { display: flex; }
+
+.lightbox-content {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-lighter);
+  transition: color 0.2s;
+}
+
+.lightbox-close:hover { color: var(--text); }
+
+.lightbox-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, var(--lavender-light), var(--rose-light));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.lightbox-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  color: var(--text);
+}
+
+/* ===== Personality Section ===== */
+#personality { background: var(--cream); }
+
+.personality-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.p-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(201,184,228,0.12);
+  transition: all 0.4s ease;
+}
+
+.p-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+
+.p-card-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+.p-card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 0.8rem;
+}
+
+.p-card p {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+
+.mbti-letters {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.mbti-letter {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--white);
+}
+
+.mbti-letter.i { background: #b8a9c9; }
+.mbti-letter.n { background: #a8b8c9; }
+.mbti-letter.f { background: #c9a8b8; }
+.mbti-letter.p { background: #a8c9b8; }
+
+.trait-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.trait-tag {
+  background: var(--cream-dark);
+  color: var(--text-light);
+  padding: 0.3rem 1rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+.zodiac-dates { font-size: 0.8rem; color: var(--text-lighter); margin-top: 0.3rem; }
+
+/* ===== Bucket List Section ===== */
+#bucketlist {
+  background: linear-gradient(180deg, var(--cream) 0%, var(--white) 50%, var(--cream) 100%);
+}
+
+.bucket-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.bucket-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(201,184,228,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.bucket-item:hover { box-shadow: var(--card-shadow-hover); }
+
+.bucket-item.checked { opacity: 0.55; }
+
+.bucket-item.checked .bucket-text { text-decoration: line-through; }
+
+.bucket-check {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--lavender);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  color: transparent;
+}
+
+.bucket-item.checked .bucket-check {
+  background: var(--lavender);
+  color: var(--white);
+}
+
+.bucket-text {
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.bucket-emoji { font-size: 1.2rem; flex-shrink: 0; }
+
+/* ===== Footer ===== */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--cream-dark);
+  border-top: 1px solid rgba(201,184,228,0.2);
+}
+
+.footer-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  color: var(--text-lighter);
+  margin-bottom: 0.5rem;
+}
+
+.footer-sub {
+  font-size: 0.78rem;
+  color: var(--text-lighter);
+  letter-spacing: 1px;
+}
+
+.footer-heart {
+  color: var(--rose);
+  animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+}
+
+/* ===== Back to Top ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--lavender-light);
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--lavender-dark);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+.back-to-top:hover { background: var(--lavender-light); }
+
+/* ===== Music Player Mini ===== */
+.music-toggle {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--lavender-light);
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  animation: spinSlow 8s linear infinite;
+  animation-play-state: paused;
+}
+
+.music-toggle.playing { animation-play-state: running; background: var(--lavender-light); }
+
+@keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ===== Snow / Petal Effect (toggleable) ===== */
+.petal {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  animation: fall var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh) rotate(0deg) translateX(0); }
+  25% { transform: translateY(25vh) rotate(90deg) translateX(30px); }
+  50% { transform: translateY(50vh) rotate(180deg) translateX(-20px); }
+  75% { transform: translateY(75vh) rotate(270deg) translateX(25px); }
+  100% { transform: translateY(110vh) rotate(360deg) translateX(-15px); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: 0; right: 0;
+    background: rgba(253,249,243,0.95);
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.3rem;
+    display: none;
+    border-bottom: 1px solid rgba(201,184,228,0.2);
+  }
+
+  .nav-links.open { display: flex; }
+
+  .menu-toggle { display: block; }
+
+  .about-grid { grid-template-columns: 1fr; }
+
+  .timeline::before { left: 1.5rem; }
+
+  .timeline-item:nth-child(odd),
+  .timeline-item:nth-child(even) { flex-direction: row; }
+
+  .timeline-dot { left: 1.5rem; }
+
+  .timeline-card { width: calc(100% - 4rem); margin-left: 2.5rem; }
+
+  .timeline-emoji { display: none; }
+
+  .hero-name { font-size: 2rem; letter-spacing: 3px; }
+
+  section { padding: 4rem 1rem; }
+
+  .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+
+  .personality-grid { grid-template-columns: 1fr; }
+  .bucket-list { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Stars Background -->
+<div id="stars-container"></div>
+
+<!-- Floating Fish -->
+<div id="fish-container"></div>
+
+<!-- Petals -->
+<div id="petals-container"></div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">✦ 小韵的世界</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" data-section="about">关于我</a></li>
+      <li><a href="#timeline" data-section="timeline">时光轴</a></li>
+      <li><a href="#gallery" data-section="gallery">相册</a></li>
+      <li><a href="#personality" data-section="personality">性格</a></li>
+      <li><a href="#bucketlist" data-section="bucketlist">心愿</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-avatar">🐟</div>
+    <h1 class="hero-name">小 鱼</h1>
+    <p class="hero-subtitle">A dreamer lost in her own little world</p>
+    <div class="hero-birth">✦ 2004.03.01 ✦</div>
+    <div class="hero-tags">
+      <span class="hero-tag">♓ 双鱼座</span>
+      <span class="hero-tag">🎨 INFP</span>
+      <span class="hero-tag">🌙 梦想家</span>
+      <span class="hero-tag">📷 生活记录者</span>
+    </div>
+    <p class="hero-quote">
+      " 像春天的第一缕微风，<br>
+      带着自己的韵律轻轻路过这个世界。<br>
+      用浪漫作笔，温柔为墨，<br>
+      记录每一个平凡却闪光的瞬间。 "
+    </p>
+  </div>
+  <div class="scroll-indicator">
+    <span>向下翻阅</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-title">
+      <span class="en">About Me</span>
+      <span class="cn">关 于 我</span>
+      <span class="line"></span>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3><span class="icon">📋</span> 基本信息</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">姓名</span>
+            <span class="value">小韵</span>
+          </div>
+          <div class="info-item">
+            <span class="label">生日</span>
+            <span class="value">2004.03.01</span>
+          </div>
+          <div class="info-item">
+            <span class="label">星座</span>
+            <span class="value">♓ 双鱼座</span>
+          </div>
+          <div class="info-item">
+            <span class="label">MBTI</span>
+            <span class="value">INFP · 调停者</span>
+          </div>
+          <div class="info-item">
+            <span class="label">年龄</span>
+            <span class="value">22 岁</span>
+          </div>
+          <div class="info-item">
+            <span class="label">所在地</span>
+            <span class="value">中国</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-card">
+        <h3><span class="icon">🌈</span> 性格画像</h3>
+        <div class="personality-bars">
+          <div class="bar-item">
+            <span class="bar-label">感性</span>
+            <div class="bar-track"><div class="bar-fill" style="width:92%"></div></div>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">创造力</span>
+            <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">同理心</span>
+            <div class="bar-track"><div class="bar-fill" style="width:95%"></div></div>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">想象力</span>
+            <div class="bar-track"><div class="bar-fill" style="width:90%"></div></div>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">浪漫</span>
+            <div class="bar-track"><div class="bar-fill" style="width:93%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-card full">
+        <h3><span class="icon">💭</span> 关于我</h3>
+        <p class="about-text">
+          一个喜欢在雨天窝在窗边听歌的女孩。INFP + 双鱼座的双重浪漫体质，让我总是活在自己的小宇宙里。
+          相信世界上所有的温柔都值得被珍藏——无论是午后的一缕阳光、耳机里的一首老歌、还是朋友突然发来的一句"想你"。
+          喜欢用照片记录生活的碎片，用文字收藏流动的情绪。这个网站就是我的人生小相册，记录着每一个让我心动的瞬间。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline Section -->
+<section id="timeline">
+  <div class="section-inner">
+    <div class="section-title">
+      <span class="en">My Journey</span>
+      <span class="cn">时 光 轴</span>
+      <span class="line"></span>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">March 1, 2004</div>
+          <div class="timeline-title">🐣 三月一日的礼物</div>
+          <div class="timeline-desc">初春第一天的早晨来到这个世界。妈妈说你小时候特别爱笑，像一朵安安静静绽开的小花。</div>
+        </div>
+        <span class="timeline-emoji">🌱</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">September, 2010</div>
+          <div class="timeline-title">📚 背上小书包</div>
+          <div class="timeline-desc">第一天走进小学，牵着妈妈的手不肯放。后来遇到了同桌的小女孩，从此有了形影不离的好朋友。</div>
+        </div>
+        <span class="timeline-emoji">🎒</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">~ 2013</div>
+          <div class="timeline-title">🎨 找到了自己的小世界</div>
+          <div class="timeline-desc">拥有了人生第一本日记本，开始用彩色笔画下每天的心情。那时候发现，独处的时候反而最快乐。</div>
+        </div>
+        <span class="timeline-emoji">💫</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">September, 2016</div>
+          <div class="timeline-title">🌸 青春期的雨季</div>
+          <div class="timeline-desc">开始变得敏感、爱哭，也会因为一句歌词感动很久。偷偷在本子上写了很多不会给任何人看的小诗。</div>
+        </div>
+        <span class="timeline-emoji">🌧️</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">September, 2019</div>
+          <div class="timeline-title">🌟 为梦想熬夜的日子</div>
+          <div class="timeline-desc">高中三年，在题海里浮沉。深夜的台灯、桌上的咖啡、耳机里的纯音乐——那是青春最安静又最热血的记忆。</div>
+        </div>
+        <span class="timeline-emoji">📖</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">September, 2022</div>
+          <div class="timeline-title">🦋 大学，另一个世界的门</div>
+          <div class="timeline-desc">第一次离开家，第一次自己决定每一天怎么过。跌跌撞撞学会独立，也慢慢接纳了那个内向但丰富的自己。</div>
+        </div>
+        <span class="timeline-emoji">🗝️</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">June, 2026</div>
+          <div class="timeline-title">🌈 22岁，未完待续</div>
+          <div class="timeline-desc">现在是2026年，22岁的小韵站在这里。有点迷茫、有很多期待、依然爱哭也爱笑。最好的故事，还在下一章。</div>
+        </div>
+        <span class="timeline-emoji">✨</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery Section -->
+<section id="gallery">
+  <div class="section-inner">
+    <div class="section-title">
+      <span class="en">Photo Album</span>
+      <span class="cn">我 的 相 册</span>
+      <span class="line"></span>
+    </div>
+    <div class="gallery-filter">
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="daily">日常自拍</button>
+      <button class="filter-btn" data-filter="friends">朋友合影</button>
+      <button class="filter-btn" data-filter="graduation">毕业纪念</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item" data-category="daily">
+        <div class="gallery-img"><img src="photos/自己觉得很萌的自拍1.jpg" style="width:100%;height:100%;object-fit:cover;" alt="自己觉得很萌的自拍"></div>
+        <div class="gallery-caption">自己觉得很萌的自拍</div>
+      </div>
+      <div class="gallery-item" data-category="daily">
+        <div class="gallery-img"><img src="photos/自己觉得很萌的自拍2.jpg" style="width:100%;height:100%;object-fit:cover;" alt="自己觉得很萌的自拍2"></div>
+        <div class="gallery-caption">自己觉得很萌的自拍2</div>
+      </div>
+      <div class="gallery-item" data-category="daily">
+        <div class="gallery-img"><img src="photos/很装的自拍照.jpg" style="width:100%;height:100%;object-fit:cover;" alt="很装的自拍照"></div>
+        <div class="gallery-caption">很装的自拍照</div>
+      </div>
+      <div class="gallery-item" data-category="daily">
+        <div class="gallery-img"><img src="photos/小狗耳朵照.jpg" style="width:100%;height:100%;object-fit:cover;" alt="小狗耳朵照"></div>
+        <div class="gallery-caption">小狗耳朵照</div>
+      </div>
+      <div class="gallery-item" data-category="daily">
+        <div class="gallery-img"><img src="photos/下雨天了怎么办.jpg" style="width:100%;height:100%;object-fit:cover;" alt="下雨天了怎么办"></div>
+        <div class="gallery-caption">下雨天了怎么办</div>
+      </div>
+      <div class="gallery-item" data-category="daily">
+        <div class="gallery-img"><img src="photos/搭配得不错的全身照.jpg" style="width:100%;height:100%;object-fit:cover;" alt="搭配得不错的全身照"></div>
+        <div class="gallery-caption">搭配得不错的全身照</div>
+      </div>
+      <div class="gallery-item" data-category="daily">
+        <div class="gallery-img"><img src="photos/p得不错得艺术照.jpg" style="width:100%;height:100%;object-fit:cover;" alt="艺术照"></div>
+        <div class="gallery-caption">p得不错的艺术照</div>
+      </div>
+      <div class="gallery-item" data-category="graduation">
+        <div class="gallery-img"><img src="photos/毕业神照.jpg" style="width:100%;height:100%;object-fit:cover;" alt="毕业神照"></div>
+        <div class="gallery-caption">毕业神照</div>
+      </div>
+      <div class="gallery-item" data-category="graduation">
+        <div class="gallery-img"><img src="photos/和金芷彤小姐姐的毕业合影.jpg" style="width:100%;height:100%;object-fit:cover;" alt="和金芷彤的毕业合影"></div>
+        <div class="gallery-caption">和金芷彤的毕业合影</div>
+      </div>
+      <div class="gallery-item" data-category="friends">
+        <div class="gallery-img"><img src="photos/和金字塔小姐姐的张力合照.jpg" style="width:100%;height:100%;object-fit:cover;" alt="和金字塔小姐姐的合照"></div>
+        <div class="gallery-caption">和金字塔小姐姐的合照</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <div class="lightbox-img" id="lightboxImg"></div>
+    <p class="lightbox-text" id="lightboxText"></p>
+  </div>
+</div>
+
+<!-- Personality Section -->
+<section id="personality">
+  <div class="section-inner">
+    <div class="section-title">
+      <span class="en">My Universe</span>
+      <span class="cn">我 的 宇 宙</span>
+      <span class="line"></span>
+    </div>
+    <div class="personality-grid">
+      <div class="p-card">
+        <div class="p-card-icon">🧠</div>
+        <h3>MBTI · INFP 调停者</h3>
+        <div class="mbti-letters">
+          <span class="mbti-letter i">I</span>
+          <span class="mbti-letter n">N</span>
+          <span class="mbti-letter f">F</span>
+          <span class="mbti-letter p">P</span>
+        </div>
+        <p>内向 · 直觉 · 情感 · 感知<br>
+        理想主义者，内心世界丰富而深刻<br>
+        拥有强烈的个人价值观<br>
+        用情感和直觉理解这个世界</p>
+        <div class="trait-tags">
+          <span class="trait-tag">理想主义</span>
+          <span class="trait-tag">共情力强</span>
+          <span class="trait-tag">创造力</span>
+          <span class="trait-tag">敏感细腻</span>
+        </div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-icon">♓</div>
+        <h3>双鱼座 · Pisces</h3>
+        <p>太阳双鱼 · 水象星座<br>
+        浪漫、梦幻、富有同情心<br>
+        天生的艺术家灵魂<br>
+        有时候会有些多愁善感<br>
+        但永远相信美好的事情即将发生</p>
+        <p class="zodiac-dates">♓ 2月19日 - 3月20日</p>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-icon">🎨</div>
+        <h3>兴趣爱好</h3>
+        <p>
+          📷 摄影 · 记录生活的每一帧<br>
+          🎵 音乐 · 没有音乐会死星人<br>
+          📝 写日记 · 用手帐收藏情绪<br>
+          🎬 电影 · 喜欢慢节奏的文艺片<br>
+          🌿 植物 · 养了几盆可爱的多肉<br>
+          📚 阅读 · 最近迷上了散文集
+        </p>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-icon">💝</div>
+        <h3>喜欢的事物</h3>
+        <div class="trait-tags">
+          <span class="trait-tag">下雨天</span>
+          <span class="trait-tag">旧书店</span>
+          <span class="trait-tag">黄昏</span>
+          <span class="trait-tag">猫咪</span>
+          <span class="trait-tag">手写信</span>
+          <span class="trait-tag">海洋</span>
+          <span class="trait-tag">星星</span>
+          <span class="trait-tag">薰衣草</span>
+          <span class="trait-tag">热可可</span>
+          <span class="trait-tag">胶片</span>
+          <span class="trait-tag">宫崎骏</span>
+          <span class="trait-tag">月光</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bucket List Section -->
+<section id="bucketlist">
+  <div class="section-inner">
+    <div class="section-title">
+      <span class="en">Bucket List</span>
+      <span class="cn">心 愿 清 单</span>
+      <span class="line"></span>
+    </div>
+    <div class="bucket-list" id="bucketList">
+      <div class="bucket-item" data-text="一个人去看一场演唱会">
+        <span class="bucket-emoji">🎤</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">一个人去看一场演唱会</span>
+      </div>
+      <div class="bucket-item" data-text="学会弹一首完整的吉他曲">
+        <span class="bucket-emoji">🎸</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">学会弹一首完整的吉他曲</span>
+      </div>
+      <div class="bucket-item" data-text="去日本看一次花火大会">
+        <span class="bucket-emoji">🎆</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">去日本看一次花火大会</span>
+      </div>
+      <div class="bucket-item" data-text="在海边写信寄给未来的自己">
+        <span class="bucket-emoji">💌</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">在海边写信寄给未来的自己</span>
+      </div>
+      <div class="bucket-item" data-text="养一只会等我回家的猫">
+        <span class="bucket-emoji">🐱</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">养一只会等我回家的猫</span>
+      </div>
+      <div class="bucket-item" data-text="出版一本自己的插画集或摄影集">
+        <span class="bucket-emoji">📖</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">出版一本自己的插画集或摄影集</span>
+      </div>
+      <div class="bucket-item" data-text="带爸妈去他们最想去的城市旅行">
+        <span class="bucket-emoji">✈️</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">带爸妈去他们最想去的城市旅行</span>
+      </div>
+      <div class="bucket-item" data-text="在30岁之前拥有一个属于自己的小书房">
+        <span class="bucket-emoji">📚</span>
+        <span class="bucket-check">✓</span>
+        <span class="bucket-text">在30岁之前拥有一个属于自己的小书房</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p class="footer-text">Made with <span class="footer-heart">❤</span> by 小韵</p>
+  <p class="footer-sub">2004.03.01 — ∞ · 永远浪漫，永远热爱</p>
+</footer>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="回到顶部">↑</button>
+
+<!-- Music Toggle -->
+<button class="music-toggle" id="musicToggle" aria-label="音乐" title="点击播放背景音乐">🎵</button>
+
+<!-- Hidden Audio -->
+<audio id="bgMusic" loop preload="none">
+  <source src="" type="audio/mpeg">
+</audio>
+
+<!-- QQ Music Embed -->
+<iframe id="qqMusicFrame"
+  style="display:none; position:fixed; bottom:80px; left:50%; transform:translateX(-50%); z-index:998; border-radius:12px; box-shadow:0 8px 40px rgba(0,0,0,0.2); border:none;"
+  width="330" height="110"
+  allow="autoplay"
+  src="about:blank"
+  frameborder="0">
+</iframe>
+
+<script>
+// ===== Stars Background =====
+const starsContainer = document.getElementById('stars-container');
+for (let i = 0; i < 60; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = Math.random() * 100 + '%';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.width = (Math.random() * 3 + 1) + 'px';
+  star.style.height = star.style.width;
+  star.style.setProperty('--dur', (Math.random() * 3 + 3) + 's');
+  star.style.setProperty('--delay', Math.random() * 5 + 's');
+  starsContainer.appendChild(star);
+}
+
+// ===== Floating Fish =====
+const fishContainer = document.getElementById('fish-container');
+const fishEmojis = ['🐟', '🐠', '🐡', '🦈', '🐋', '🐬', '🐙', '🪼'];
+for (let i = 0; i < 6; i++) {
+  const fish = document.createElement('div');
+  fish.className = 'fish';
+  fish.textContent = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+  fish.style.top = (Math.random() * 80 + 5) + '%';
+  fish.style.setProperty('--dur', (Math.random() * 25 + 20) + 's');
+  fish.style.setProperty('--delay', -(Math.random() * 20) + 's');
+  fishContainer.appendChild(fish);
+}
+
+// ===== Falling Petals =====
+const petalsContainer = document.getElementById('petals-container');
+const petalTypes = ['🌸', '💮', '🌷', '✿', '🌺', '🏵️', '💠'];
+for (let i = 0; i < 12; i++) {
+  const petal = document.createElement('div');
+  petal.className = 'petal';
+  petal.textContent = petalTypes[Math.floor(Math.random() * petalTypes.length)];
+  petal.style.left = Math.random() * 100 + '%';
+  petal.style.fontSize = (Math.random() * 12 + 10) + 'px';
+  petal.style.setProperty('--dur', (Math.random() * 12 + 10) + 's');
+  petal.style.setProperty('--delay', -(Math.random() * 10) + 's');
+  petalsContainer.appendChild(petal);
+}
+
+// ===== Navigation Scroll Effect =====
+const navbar = document.getElementById('navbar');
+const backToTop = document.getElementById('backToTop');
+const sections = document.querySelectorAll('section[id]');
+const navLinksAll = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  // Navbar shadow
+  if (scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+
+  // Back to top
+  if (scrollY > 600) {
+    backToTop.classList.add('visible');
+  } else {
+    backToTop.classList.remove('visible');
+  }
+
+  // Active nav link
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinksAll.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('data-section') === current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// ===== Mobile Menu =====
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+  menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+});
+
+// Close menu on link click
+navLinksAll.forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    menuToggle.textContent = '☰';
+  });
+});
+
+// ===== Back to Top =====
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ===== Timeline Scroll Animation =====
+const timelineItems = document.querySelectorAll('.timeline-item');
+const observerOptions = { threshold: 0.3, rootMargin: '0px 0px -50px 0px' };
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, observerOptions);
+
+timelineItems.forEach(item => observer.observe(item));
+
+// ===== Gallery Filter =====
+const filterBtns = document.querySelectorAll('.filter-btn');
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+
+    galleryItems.forEach(item => {
+      if (filter === 'all' || item.dataset.category === filter) {
+        item.style.display = '';
+        setTimeout(() => { item.style.opacity = '1'; item.style.transform = ''; }, 10);
+      } else {
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.9)';
+        setTimeout(() => { item.style.display = 'none'; }, 300);
+      }
+    });
+  });
+});
+
+// ===== Gallery Lightbox =====
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxText = document.getElementById('lightboxText');
+const lightboxClose = document.getElementById('lightboxClose');
+
+galleryItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const imgDiv = item.querySelector('.gallery-img');
+    const imgEl = imgDiv.querySelector('img');
+    const caption = item.querySelector('.gallery-caption').textContent;
+
+    // Clear previous content
+    lightboxImg.innerHTML = '';
+    lightboxImg.className = 'lightbox-img';
+
+    if (imgEl) {
+      // Real photo: clone the image into lightbox
+      const clonedImg = document.createElement('img');
+      clonedImg.src = imgEl.src;
+      clonedImg.alt = imgEl.alt;
+      clonedImg.style.cssText = 'width:100%;height:100%;object-fit:contain;border-radius:10px;';
+      lightboxImg.appendChild(clonedImg);
+    } else {
+      // Placeholder fallback
+      lightboxImg.className = 'lightbox-img ' + (Array.from(imgDiv.classList).find(c => c.startsWith('placeholder-')) || '');
+      lightboxImg.textContent = imgDiv.textContent;
+    }
+
+    lightboxText.textContent = caption;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+lightboxClose.addEventListener('click', () => {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+});
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+// ===== Bucket List Toggle =====
+const bucketItems = document.querySelectorAll('.bucket-item');
+bucketItems.forEach(item => {
+  item.addEventListener('click', () => {
+    item.classList.toggle('checked');
+    // Save state to localStorage
+    const text = item.dataset.text;
+    const checkedItems = JSON.parse(localStorage.getItem('bucketChecked') || '{}');
+    if (item.classList.contains('checked')) {
+      checkedItems[text] = true;
+    } else {
+      delete checkedItems[text];
+    }
+    localStorage.setItem('bucketChecked', JSON.stringify(checkedItems));
+  });
+});
+
+// Load bucket list state
+const savedChecked = JSON.parse(localStorage.getItem('bucketChecked') || '{}');
+bucketItems.forEach(item => {
+  if (savedChecked[item.dataset.text]) {
+    item.classList.add('checked');
+  }
+});
+
+// ===== Music Toggle (QQ Music) =====
+const musicToggle = document.getElementById('musicToggle');
+const qqMusicFrame = document.getElementById('qqMusicFrame');
+const qqMusicUrl = 'https://c6.y.qq.com/base/fcgi-bin/u?__=hHmYQ0aNgnLN';
+let musicPlaying = false;
+
+musicToggle.addEventListener('click', () => {
+  if (!musicPlaying) {
+    // First time: load QQ Music iframe
+    if (qqMusicFrame.src === 'about:blank') {
+      qqMusicFrame.src = qqMusicUrl;
+    }
+    qqMusicFrame.style.display = '';
+    musicPlaying = true;
+    musicToggle.classList.add('playing');
+    musicToggle.textContent = '🎶';
+  } else {
+    qqMusicFrame.style.display = 'none';
+    musicPlaying = false;
+    musicToggle.classList.remove('playing');
+    musicToggle.textContent = '🎵';
+  }
+});
+
+// ===== Keyboard Controls =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+// ===== Initialize first visible timeline items =====
+window.addEventListener('load', () => {
+  // Trigger scroll check on load
+  window.dispatchEvent(new Event('scroll'));
+});
+
+console.log('🐟 欢迎来到小韵的世界 ~');
+console.log('💌 这个网站是为你量身打造的人生相册');
+console.log('✨ 替换 gallery 里的 emoji 为真实照片就可以啦');
+console.log('🎵 点击左下角音符按钮播放背景音乐');
+</script>
+</body>
+</html>
